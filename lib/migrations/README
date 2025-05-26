@@ -1,1 +1,128 @@
-Generic single-database configuration.
+# 🧢 Freebie Tracker
+
+A lightweight tracking app built with Python and SQLAlchemy to help developers keep track of freebies (swag) they receive from different companies at hackathons and events.
+
+---
+
+## 🚀 Project Overview
+
+The Freebie Tracker models the relationship between:
+
+- **Companies** that give out swag
+- **Devs** who collect freebies
+- **Freebies** that belong to both a Company and a Dev
+
+This is a many-to-many relationship between `Company` and `Dev` through the `Freebie` model.
+
+---
+
+📦 Tech Stack
+
+- Python 3
+- SQLite (via SQLAlchemy ORM)
+- ipdb for debugging
+
+---
+
+## 📁 Folder Structure
+
+```
+python-p3-freebie-tracker/
+│
+├── lib/
+│   ├── config.py       # SQLAlchemy setup
+│   ├── models.py       # Dev, Company, Freebie models and logic
+│   ├── seed.py         # Sample data population script
+│   ├── debug.py        # Interactive test console
+│
+├── freebies.db         # SQLite database (generated after seeding)
+├── README.md           # You're reading it
+```
+
+---
+
+## 🛠️ Setup Instructions
+
+### 1. Clone the Repo
+```bash
+git clone <repo-url>
+cd python-p3-freebie-tracker
+```
+
+### 2. Install Dependencies
+```bash
+pipenv install
+pipenv shell
+```
+
+### 3. Create Database Tables
+```bash
+python lib/debug.py
+```
+This will create the SQLite database and tables if they don’t exist.
+
+### 4. Seed Sample Data
+```bash
+python lib/seed.py
+```
+
+### 5. Run Interactive Debug Session
+```bash
+python lib/debug.py
+```
+Use this to test methods and explore relationships.
+
+---
+
+## 🔍 Key Features
+
+### Relationships
+- `Company.freebies` → list of freebies given
+- `Company.devs` → list of devs who received freebies
+- `Dev.freebies` → list of freebies owned
+- `Dev.companies` → list of companies that gave freebies
+
+### Methods
+- `Freebie.print_details()` → prints: `"Alice owns a T-shirt from Google"`
+- `Company.give_freebie(dev, item, value)` → creates a new Freebie
+- `Company.oldest_company()` → returns the oldest company
+- `Dev.received_one(item)` → True/False if dev owns item
+- `Dev.give_away(other_dev, freebie)` → transfers ownership
+
+---
+
+## 🧪 Example
+
+```python
+alice = session.query(Dev).filter_by(name="Alice").first()
+google = session.query(Company).filter_by(name="Google").first()
+
+google.give_freebie(alice, "Sticker Pack", 5)
+session.commit()
+
+for f in alice.freebies:
+    print(f.print_details())
+```
+
+---
+
+## 🧼 Future Improvements
+
+- Add CLI or web UI for interaction
+- Export to CSV or JSON
+- Add authentication for dev accounts
+
+---
+
+## 👨‍💻 Author
+
+Collins Otieno Nyambury  
+📧 nyamburycollins@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/feed/) | 
+[GitHub](https://github.com/NyamburyCollins?tab=repositories)
+
+---
+
+## 📝 License
+
+MIT License
